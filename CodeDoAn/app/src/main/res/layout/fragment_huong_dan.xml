@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#502586"
+    tools:context=".ChucNang.HuongDan">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+                <VideoView
+
+                    android:id="@+id/videoHuongDanThucHanh"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_gravity="top" />
+                <TextView
+                    android:textColor="#faf8f8"
+                    android:layout_marginTop="10dp"
+                    android:text="1231231231"
+                    android:textSize="15dp"
+                    android:id="@+id/textHuongDan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+
+</FrameLayout>
