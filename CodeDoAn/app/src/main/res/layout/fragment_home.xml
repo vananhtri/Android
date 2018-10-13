@@ -3,8 +3,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#c9b2da"
     tools:context=".ChucNang.Home">
 
     <!-- TODO: Update blank fragment layout -->
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#be6af2"
+            android:layout_marginTop="5dp"
+            android:id="@+id/LinearLamBai">
+            <ImageView
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:src="@drawable/book"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="LÀM BÀI THI"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#a159ce"
+            android:layout_marginTop="5dp"
+            android:id="@+id/LinearHươngDan">
+            <ImageView
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:src="@drawable/lamp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="HƯỚNG DẪN THI THỰC HÀNH"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="#8548ac"
+            android:layout_marginTop="5dp"
+            android:id="@+id/LinearMeo">
+            <ImageView
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                android:src="@drawable/help"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="MẸO THI THỰC HÀNH"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>
