@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#001122"
+    tools:context=".ChucNang.FragMeoThi">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="LUẬT GIAO THÔNG ĐƯỜNG BỘ"
+            android:gravity="center"
+            android:layout_marginTop="2dp"
+            android:textColor="#ef0cef"
+            android:textSize="15dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/TextMeo"
+            android:layout_marginLeft="5dp"
+            android:textColor="#b9b7b9"
+            android:textSize="13dp"/>
+    </LinearLayout>
+
+
+</FrameLayout>
