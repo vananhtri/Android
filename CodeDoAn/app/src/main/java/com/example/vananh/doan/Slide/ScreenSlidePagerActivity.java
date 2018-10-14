@@ -2,6 +2,7 @@ package com.example.vananh.doan.Slide;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -21,12 +22,13 @@ import com.example.vananh.doan.Model.CauHoi;
 import com.example.vananh.doan.R;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class ScreenSlidePagerActivity extends FragmentActivity {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
-    private static final int NUM_PAGES = 5;
+    private static final int NUM_PAGES = 20;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -43,7 +45,11 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
     TextView textKiemTra;
     ArrayList<CauHoi> listCauHoi;
     SQLCauHoi sqlCauHoi;
+    TextView textTime ;
+    TextView textXemDiem;
     int maBoDe;
+    int checkAnswer = 0;
+    CounterClass timer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +58,9 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
         Intent intent   = getIntent();
         maBoDe = intent.getIntExtra("MaBoDe",0);
         textKiemTra = findViewById(R.id.textKiemTra);
-
+        textTime = findViewById(R.id.tvTimer);
+        textXemDiem = findViewById(R.id.tvXemDiem);
+        timer = new CounterClass(15 * 60 * 1000, 1000);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager =  findViewById(R.id.pager);
@@ -75,6 +83,20 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
             }
         });
 
+        textXemDiem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(getBaseContext(), TestDoneActivity.class);
+                startActivity(in);
+            }
+        });
+        textTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        timer.start();
     }
 
 
@@ -105,7 +127,7 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return ScreenSlidePageFragment.createItem(position);
+            return ScreenSlidePageFragment.createItem(position, checkAnswer );
         }
 
         @Override
@@ -182,13 +204,53 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
         btnFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                /////
-//                timer.cancel();
-//                result();
-//                dialog.dismiss();
+                /////
+                timer.cancel();
+                result();
+                dialog.dismiss();
             }
         });
 
         dialog.show();
+    }
+
+    private void result() {
+        checkAnswer = 1;
+        if (mPager.getCurrentItem() >= 4) mPager.setCurrentItem(mPager.getCurrentItem() - 4);
+        else if (mPager.getCurrentItem() <= 4) mPager.setCurrentItem(mPager.getCurrentItem() + 4);
+        textXemDiem.setVisibility(View.VISIBLE);
+        textKiemTra.setVisibility(View.GONE);
+    }
+
+
+    // COUNT TIME
+    public class CounterClass extends CountDownTimer {
+        /**
+         * @param millisInFuture    The number of millis in the future from the call
+         *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
+         *                          is called.
+         * @param countDownInterval The interval along the way to receive
+         *                          {@link #onTick(long)} callbacks.
+         */
+
+
+        //millisInFuture: 15 * 60 *1000
+        //countDownInterval:  1000
+        public CounterClass(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            String countTime = String.format("%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished), TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(
+                    TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+            textTime.setText(countTime); //SetText cho textview hiện thị thời gian.
+        }
+
+        @Override
+        public void onFinish() {
+            textTime.setText("00:00");  //SetText cho textview hiện thị thời gian.
+            result();
+        }
     }
 }

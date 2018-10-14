@@ -55,18 +55,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:orientation="horizontal"
 
-                <CheckBox
-                    android:id="@+id/chkA"
+                   android:layout_height="wrap_content">
+
+                   <Button
+                       android:layout_width="5dp"
+                       android:id="@+id/btnAnswerA"
+                       android:gravity="center"
+                       android:layout_gravity="center"
+                       android:layout_height="35dp"
+                       android:visibility="invisible"
+                       android:layout_marginTop="5dp" />
+                   <CheckBox
+                       android:id="@+id/chkA"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="5dp"
+                       android:buttonTint="#ffffff"
+                       android:checked="false"
+                       android:text="Trả lời 1 Trả lời 1 Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả Trả lời 1lời 1Trả lời 1Trả lời 1Trả lời 1"
+                       android:textColor="#fffeff"
+                       android:textSize="14sp" />
+               </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:buttonTint="#ffffff"
-                    android:textSize="14sp"
-                    android:textColor="#fffeff"
-                    android:layout_marginTop="5dp"
-                    android:text="Trả lời 1 Trả lời 1 Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả lời 1Trả Trả lời 1lời 1Trả lời 1Trả lời 1Trả lời 1" />
+                    android:orientation="horizontal"
 
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_width="5dp"
+                        android:id="@+id/btnAnswerB"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_height="35dp"
+                        android:visibility="invisible"
+                        android:layout_marginTop="5dp" />
                 <CheckBox
                     android:id="@+id/chkB"
                     android:layout_width="match_parent"
@@ -77,9 +105,23 @@
                     android:layout_marginTop="5dp"
                     android:textColor="#fcfbfc"
                     android:textSize="14sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
 
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_width="5dp"
+                        android:id="@+id/btnAnswerC"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_height="35dp"
+                        android:visibility="invisible"
+                        android:layout_marginTop="5dp" />
                 <CheckBox
-                    android:id="@+id/chkD"
+                    android:id="@+id/chkC"
                     android:buttonTint="#ffffff"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -88,9 +130,23 @@
                     android:text="Trả lời 4"
                     android:textColor="#fbfbfc"
                     android:textSize="14sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
 
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_width="5dp"
+                        android:id="@+id/btnAnswerD"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_height="35dp"
+                        android:visibility="invisible"
+                        android:layout_marginTop="5dp" />
                 <CheckBox
-                    android:id="@+id/chkC"
+                    android:id="@+id/chkD"
                     android:buttonTint="#ffffff"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -99,6 +155,7 @@
                     android:layout_marginTop="5dp"
                     android:textSize="14sp"
                     android:text="Trả lời 3" />
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
