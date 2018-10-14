@@ -57,14 +57,13 @@ public class CheckAnswerAdapter extends BaseAdapter {
         int pos = position + 1;
         holder.tvNumAns.setText("Câu " + pos + ": ");
         List<String> listCauTL = data.getListTraLoi();
-
         // get answer
         String ans = "";
         for (int i = 0; i < listCauTL.size(); i++) {
             if (i == listCauTL.size() - 1) {
                 ans += listCauTL.get(i);
             } else {
-                ans += "," + listCauTL.get(i);
+                ans += listCauTL.get(i) +"," ;
             }
         }
         holder.tvYourAns.setText(ans);
