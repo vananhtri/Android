@@ -90,22 +90,27 @@ public class menuActivity extends AppCompatActivity
             Home flagHome = new Home();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_main, flagHome, flagHome.getTag()).addToBackStack(null).commit();
+            getSupportActionBar().setTitle("Trang chủ");
+
             // Handle the camera action
         } else if (id == R.id.nav_LamBaiThi) {
             LamBaiThi flag = new LamBaiThi();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_main, flag, flag.getTag()).addToBackStack(null).commit();
+            getSupportActionBar().setTitle("Làm bài thi");
         } else if (id == R.id.nav_Diem) {
 
         } else if (id == R.id.nav_HuongDan) {
             HuongDan flagHuongDan = new HuongDan();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_main, flagHuongDan, flagHuongDan.getTag()).commit();
+            getSupportActionBar().setTitle("Hướng dẫn thi thực hành");
 
         } else if (id == R.id.nav_DangNhap) {
             FlagDangNhap DangNhap = new FlagDangNhap();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_main, DangNhap, DangNhap.getTag()).commit();
+            getSupportActionBar().setTitle("Đăng nhập");
 
         } else if (id == R.id.nav_view) {
 

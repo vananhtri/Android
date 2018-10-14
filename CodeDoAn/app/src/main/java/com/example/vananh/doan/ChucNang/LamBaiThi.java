@@ -63,6 +63,7 @@ public class LamBaiThi extends android.support.v4.app.Fragment {
         SqlDataHelper sqlDataHelper = new SqlDataHelper(getContext());
         //try connection
         try {
+            sqlDataHelper.deleteDatabase();
             sqlDataHelper.isCreatedDatabase();
         } catch (IOException e) {
             e.printStackTrace();
