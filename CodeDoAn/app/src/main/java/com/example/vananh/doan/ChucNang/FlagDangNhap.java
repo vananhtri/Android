@@ -51,6 +51,17 @@ public class FlagDangNhap extends android.support.v4.app.Fragment {
             e.printStackTrace();
         }
         sqlNguoiDung = new SQLNguoiDung(getContext());
+        dangki.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragDangKi fragment = new FragDangKi();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_main, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
        login.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
