@@ -1,9 +1,11 @@
 package com.example.vananh.doan.Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class CauHoi  {
+public class CauHoi implements Serializable {
     int id;
     int iDBoDe;
     String noiDung;
@@ -33,7 +35,7 @@ public class CauHoi  {
     String tenLoaiCauHoi;
     byte[] hinhAnh;
 
-    ArrayList<String> listTraLoi = new ArrayList<>() ;
+    ArrayList<String> listTraLoi = new ArrayList<>();
 
     public ArrayList<String> getListTraLoi() {
 
@@ -118,10 +120,12 @@ public class CauHoi  {
 
     public CauHoi() {
     }
+
     public CauHoi(String tenLoaiCauHoi, String noiDung) {
-        this.tenLoaiCauHoi= tenLoaiCauHoi;
+        this.tenLoaiCauHoi = tenLoaiCauHoi;
         this.noiDung = noiDung;
     }
+
     public CauHoi(int id, int iDBoDe, String noiDung, String dapAnA, String dapAnB, String dapAnC, String dapAnD, String cauTraLoi) {
         this.id = id;
         this.iDBoDe = iDBoDe;
@@ -143,5 +147,25 @@ public class CauHoi  {
         this.dapAnD = dapAnD;
         this.cauTraLoi = cauTraLoi;
         this.hinhAnh = hinhAnh;
+    }
+
+    public CauHoi(int id, int maLoaiCauHoi, String tenLoaiCauHoi, String noiDung, String dapAnA, String dapAnB, String dapAnC, String dapAnD, String cauTraLoi) {
+        this.id = id;
+        this.maLoaiCauHoi = maLoaiCauHoi;
+        this.tenLoaiCauHoi = tenLoaiCauHoi;
+        this.noiDung = noiDung;
+        this.dapAnA = dapAnA;
+        this.dapAnB = dapAnB;
+        this.dapAnC = dapAnC;
+        this.dapAnD = dapAnD;
+        this.cauTraLoi = cauTraLoi;
+    }
+
+    public ArrayList<String> ConvertCauTraLoiToList() {
+        if (this.cauTraLoi != null) {
+            ArrayList<String> listAns = new ArrayList<String>(Arrays.asList(this.cauTraLoi.split(",")));
+            return listAns;
+        }
+        return new ArrayList<>();
     }
 }
