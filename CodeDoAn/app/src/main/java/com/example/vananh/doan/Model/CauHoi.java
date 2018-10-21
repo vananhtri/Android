@@ -12,6 +12,25 @@ public class CauHoi  {
     String dapAnC;
     String dapAnD;
     String cauTraLoi;
+    int maLoaiCauHoi;
+
+    public int getMaLoaiCauHoi() {
+        return maLoaiCauHoi;
+    }
+
+    public void setMaLoaiCauHoi(int maLoaiCauHoi) {
+        this.maLoaiCauHoi = maLoaiCauHoi;
+    }
+
+    public String getTenLoaiCauHoi() {
+        return tenLoaiCauHoi;
+    }
+
+    public void setTenLoaiCauHoi(String tenLoaiCauHoi) {
+        this.tenLoaiCauHoi = tenLoaiCauHoi;
+    }
+
+    String tenLoaiCauHoi;
     byte[] hinhAnh;
 
     ArrayList<String> listTraLoi = new ArrayList<>() ;
@@ -99,7 +118,10 @@ public class CauHoi  {
 
     public CauHoi() {
     }
-
+    public CauHoi(String tenLoaiCauHoi, String noiDung) {
+        this.tenLoaiCauHoi= tenLoaiCauHoi;
+        this.noiDung = noiDung;
+    }
     public CauHoi(int id, int iDBoDe, String noiDung, String dapAnA, String dapAnB, String dapAnC, String dapAnD, String cauTraLoi) {
         this.id = id;
         this.iDBoDe = iDBoDe;

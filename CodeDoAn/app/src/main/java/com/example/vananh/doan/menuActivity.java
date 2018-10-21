@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.vananh.doan.ChucNang.FlagDangNhap;
+import com.example.vananh.doan.ChucNang.FragCauHoi;
 import com.example.vananh.doan.ChucNang.Home;
 import com.example.vananh.doan.ChucNang.HuongDan;
 import com.example.vananh.doan.ChucNang.LamBaiThi;
@@ -114,6 +115,12 @@ public class menuActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_view) {
 
+        }
+        else  if (id==R.id.nav_CauHoi){
+            FragCauHoi fragCauHoi = new FragCauHoi();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.content_main, fragCauHoi, fragCauHoi.getTag()).commit();
+            getSupportActionBar().setTitle("Danh sách câu hỏi");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

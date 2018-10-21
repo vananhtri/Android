@@ -13,22 +13,26 @@
     <item android:title="DANH SÁCH CHỨC NĂNG">
         <menu>
             <group android:checkableBehavior="single">
-            <item
-                android:id="@+id/nav_Diem"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Điểm thi" />
-            <item
-                android:id="@+id/nav_HuongDan"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Hướng dẫn thực hành" />
-            <item
-                android:id="@+id/nav_LamBaiThi"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Làm bài thi" />
-            <item
-                android:id="@+id/nav_DangNhap"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Đăng nhập" />
+                <item
+                    android:id="@+id/nav_Diem"
+                    android:icon="@drawable/ic_menu_share"
+                    android:title="Điểm thi" />
+                <item
+                    android:id="@+id/nav_HuongDan"
+                    android:icon="@drawable/ic_menu_share"
+                    android:title="Hướng dẫn thực hành" />
+                <item
+                    android:id="@+id/nav_LamBaiThi"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Làm bài thi" />
+                <item
+                    android:id="@+id/nav_CauHoi"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Danh sách câu hỏi" />
+                <item
+                    android:id="@+id/nav_DangNhap"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Đăng nhập" />
             </group>
         </menu>
     </item>
