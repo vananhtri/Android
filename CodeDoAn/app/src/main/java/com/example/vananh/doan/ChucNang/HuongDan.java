@@ -32,6 +32,12 @@ public class HuongDan extends android.support.v4.app.Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Hướng dẫn thi thực hành");
+    }
+
     private VideoView videoView;
     private int position = 0;
     private MediaController mediaController;

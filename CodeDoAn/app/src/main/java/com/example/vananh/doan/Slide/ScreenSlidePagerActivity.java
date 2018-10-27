@@ -1,6 +1,8 @@
 package com.example.vananh.doan.Slide;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -10,18 +12,35 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.RequestFuture;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.vananh.doan.Adapter.CauHoiAdapter;
 import com.example.vananh.doan.Adapter.CheckAnswerAdapter;
+import com.example.vananh.doan.Constant.Constant;
 import com.example.vananh.doan.Database.SQLCauHoi;
+import com.example.vananh.doan.Interface.ServerCallback;
+import com.example.vananh.doan.KetQuaActivity;
 import com.example.vananh.doan.Model.CauHoi;
 import com.example.vananh.doan.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class ScreenSlidePagerActivity extends FragmentActivity {
@@ -45,49 +64,51 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
     TextView textKiemTra;
     ArrayList<CauHoi> listCauHoi;
     SQLCauHoi sqlCauHoi;
-    TextView textTime ;
+    TextView textTime;
     TextView textXemDiem;
     int maBoDe;
     int checkAnswer = 0;
     CounterClass timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_screen_slide_pager);
         //
-        Intent intent   = getIntent();
-        maBoDe = intent.getIntExtra("MaBoDe",0);
+        Intent intent = getIntent();
+        maBoDe = intent.getIntExtra("MaBoDe", 0);
         textKiemTra = findViewById(R.id.textKiemTra);
         textTime = findViewById(R.id.tvTimer);
         textXemDiem = findViewById(R.id.tvXemDiem);
         timer = new CounterClass(15 * 60 * 1000, 1000);
 
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager =  findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        mPager.setAdapter(mPagerAdapter);
-        mPager.setPageTransformer(true, new DepthPageTransformer());
+        mPager = findViewById(R.id.pager);
 
         //
         listCauHoi = new ArrayList<>();
         sqlCauHoi = new SQLCauHoi(getBaseContext());
-        listCauHoi = sqlCauHoi.GetListCauHoiByBoDe(maBoDe);
+        String url = Constant.BASE_URL + "api/BoDe/ThiThu/get/" + maBoDe;
+        if(maBoDe == 0 ) //get ngau nhien
+        {
+            url  =  Constant.BASE_URL + "api/BoDe/ThiThu/getRanDom";
 
-
+        }
+        getListCauHoiByBoDe(url);
         //event
 
         textKiemTra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               checkAnswer();
+                checkAnswer();
             }
         });
 
         textXemDiem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(getBaseContext(), TestDoneActivity.class);
-                startActivity(in);
+
+                setKetQuaThi();
             }
         });
         textTime.setOnClickListener(new View.OnClickListener() {
@@ -99,9 +120,85 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
         timer.start();
     }
 
+    private void getListCauHoiByBoDe(String url) {
+        ArrayList<CauHoi> cauHoiArrayList = new ArrayList<>();
+        RequestQueue queue = Volley.newRequestQueue(getBaseContext());
+        final StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
 
-    public   ArrayList<CauHoi>  getData(){
-        return  listCauHoi;
+                    @Override
+                    public void onResponse(String response) {
+                        //set adapter;
+                        listCauHoi = convertToListCauHoi(response);
+                        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+                        mPager.setAdapter(mPagerAdapter);
+                        mPager.setPageTransformer(true, new DepthPageTransformer());
+
+                        // cauHoiAdapter = new CauHoiAdapter(getContext(), listCauHoi);
+                        // lvCauHoi.setAdapter(cauHoiAdapter);
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.getMessage());
+            }
+        });
+
+        queue.add(stringRequest);
+    }
+
+    private ArrayList<CauHoi> convertToListCauHoi(String response) {
+        ArrayList<CauHoi> listCauHoi = new ArrayList<CauHoi>();
+        try {
+            JSONArray cauhoiArray = new JSONArray(response);
+            for (int i = 0; i < cauhoiArray.length(); ++i) {
+                JSONObject obj = cauhoiArray.getJSONObject(i);
+                int maCauHoi = obj.getInt("MaCauHoi");
+                int maLoai = obj.getInt("MaLoaiCauHoi");
+                String noiDung = obj.getString("NoiDungCauHoi");
+                String daA = obj.getString("DapAnA");
+                String daB = obj.getString("DapAnB");
+                String daC = obj.getString("DapAnC");
+                String daD = obj.getString("DapAnD");
+                String cauTraLoi = obj.getString("DapAnDung");
+                String tenHinhAnh = obj.getString("HinhAnh");
+                int hinhAnh = getResources().getIdentifier(tenHinhAnh, "drawable", getPackageName());
+                CauHoi cauHoi = new CauHoi(maCauHoi,maBoDe,noiDung,daA,daB,daC, daD,cauTraLoi,maLoai,hinhAnh);
+                listCauHoi.add(cauHoi);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return listCauHoi;
+    }
+    private void setKetQuaThi() {
+        List<CauHoi> listCauHoi = getData();
+        int dapAnDung = 0;
+        int dapAnSai = 0;
+        int chuaChon = 0;
+        for (CauHoi cauHoi : listCauHoi) {
+            if(cauHoi.getTraLoiNguoiDung() == null || cauHoi.getTraLoiNguoiDung().isEmpty()){
+                chuaChon ++;
+            }
+            else if (cauHoi.getTraLoiNguoiDung().equals(cauHoi.getCauTraLoi())) {
+                dapAnDung++;
+            }
+            else  dapAnSai ++;
+        }
+
+        Intent in = new Intent(getBaseContext(), KetQuaActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("dapAnDung", dapAnDung);
+        bundle.putInt("dapAnSai", dapAnSai);
+        bundle.putInt("chuaChon", chuaChon);
+        in.putExtra("ketqua",bundle);
+        startActivity(in);
+    }
+
+
+    public ArrayList<CauHoi> getData() {
+        return listCauHoi;
     }
 
     @Override
@@ -127,7 +224,7 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return ScreenSlidePageFragment.createItem(position, checkAnswer );
+                return ScreenSlidePageFragment.createItem(position, checkAnswer);
         }
 
         @Override
@@ -181,7 +278,7 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
 
         CheckAnswerAdapter answerAdapter = new CheckAnswerAdapter(listCauHoi, ScreenSlidePagerActivity.this);
 
-        GridView gridCheckAnswer =  dialog.findViewById(R.id.gridCheckAnswer);
+        GridView gridCheckAnswer = dialog.findViewById(R.id.gridCheckAnswer);
         gridCheckAnswer.setAdapter(answerAdapter);
 
         gridCheckAnswer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -193,8 +290,8 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
         });
 
         Button btnCancle, btnFinish;
-        btnCancle =  dialog.findViewById(R.id.btnDong);
-        btnFinish =   dialog.findViewById(R.id.btnKetThuc);
+        btnCancle = dialog.findViewById(R.id.btnDong);
+        btnFinish = dialog.findViewById(R.id.btnKetThuc);
         btnCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -202,12 +299,31 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
             }
         });
         btnFinish.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 /////
-                timer.cancel();
-                result();
-                dialog.dismiss();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(ScreenSlidePagerActivity.this);
+                // builder.setIcon(R.drawable.exit);
+                builder.setTitle("Thông báo");
+                builder.setMessage("Bạn có muốn kết thúc không?");
+                builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogs, int which) {
+                        timer.cancel();
+                        result();
+                        dialogs.dismiss();
+                        dialog.dismiss();
+                    }
+
+                });
+                builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                builder.show();
+
             }
         });
 

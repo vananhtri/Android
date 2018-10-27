@@ -1,5 +1,6 @@
 package com.example.vananh.doan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -39,6 +40,22 @@ public class menuActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //default load login
+
+        Intent intent = getIntent();
+        int ketQua = intent.getIntExtra("ketQua", 0);
+        if(ketQua == 0){
+            FlagDangNhap DangNhap = new FlagDangNhap();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.content_main, DangNhap, DangNhap.getTag()).commit();
+        }
+        else {
+            Home flagHome = new Home();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.content_main, flagHome, flagHome.getTag()).addToBackStack(null).commit();
+        }
+
     }
 
     @Override
@@ -83,27 +100,25 @@ public class menuActivity extends AppCompatActivity
             Home flagHome = new Home();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_main, flagHome, flagHome.getTag()).addToBackStack(null).commit();
-            getSupportActionBar().setTitle("Trang chủ");
 
             // Handle the camera action
         } else if (id == R.id.nav_LamBaiThi) {
             LamBaiThi flag = new LamBaiThi();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_main, flag, flag.getTag()).addToBackStack(null).commit();
-            getSupportActionBar().setTitle("Làm bài thi");
+
         } else if (id == R.id.nav_Diem) {
 
         } else if (id == R.id.nav_HuongDan) {
             HuongDan flagHuongDan = new HuongDan();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_main, flagHuongDan, flagHuongDan.getTag()).commit();
-            getSupportActionBar().setTitle("Hướng dẫn thi thực hành");
+
 
         } else if (id == R.id.nav_DangNhap) {
             FlagDangNhap DangNhap = new FlagDangNhap();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_main, DangNhap, DangNhap.getTag()).commit();
-            getSupportActionBar().setTitle("Đăng nhập");
 
         } else if (id == R.id.nav_view) {
 
@@ -112,9 +127,7 @@ public class menuActivity extends AppCompatActivity
             FragCauHoi fragCauHoi = new FragCauHoi();
             FragmentManager manager = getSupportFragmentManager();
             manager.beginTransaction().replace(R.id.content_main, fragCauHoi, fragCauHoi.getTag()).commit();
-            getSupportActionBar().setTitle("Danh sách câu hỏi");
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

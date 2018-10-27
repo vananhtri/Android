@@ -1,9 +1,7 @@
 package com.example.vananh.doan;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,11 +25,9 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.vananh.doan.Adapter.CauHoiAdapter;
 import com.example.vananh.doan.Constant.Constant;
 import com.example.vananh.doan.Model.CauHoi;
 import com.example.vananh.doan.Model.LoaiCauHoi;
-import com.example.vananh.doan.Slide.TestDoneActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +35,6 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 public class CauHoiDetailActivity extends AppCompatActivity {

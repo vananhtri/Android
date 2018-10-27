@@ -51,7 +51,14 @@ public class FragCauHoi extends android.support.v4.app.Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActivity().setTitle("Danh sách câu hỏi");
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Danh sách câu hỏi");
     }
 
     @Override

@@ -15,7 +15,8 @@ public class CauHoi implements Serializable {
     String dapAnD;
     String cauTraLoi;
     int maLoaiCauHoi;
-
+    String tenLoaiCauHoi;
+    int  hinhAnh;
     public int getMaLoaiCauHoi() {
         return maLoaiCauHoi;
     }
@@ -32,13 +33,13 @@ public class CauHoi implements Serializable {
         this.tenLoaiCauHoi = tenLoaiCauHoi;
     }
 
-    String tenLoaiCauHoi;
-    byte[] hinhAnh;
+
 
     ArrayList<String> listTraLoi = new ArrayList<>();
 
     public ArrayList<String> getListTraLoi() {
-
+        if (listTraLoi == null)
+            listTraLoi = new ArrayList<>();
         return listTraLoi;
     }
 
@@ -110,11 +111,11 @@ public class CauHoi implements Serializable {
         this.cauTraLoi = cauTraLoi;
     }
 
-    public byte[] getHinhAnh() {
+    public int getHinhAnh() {
         return hinhAnh;
     }
 
-    public void setHinhAnh(byte[] hinhAnh) {
+    public void setHinhAnh(int hinhAnh) {
         this.hinhAnh = hinhAnh;
     }
 
@@ -137,7 +138,7 @@ public class CauHoi implements Serializable {
         this.cauTraLoi = cauTraLoi;
     }
 
-    public CauHoi(int id, int iDBoDe, String noiDung, String dapAnA, String dapAnB, String dapAnC, String dapAnD, String cauTraLoi, byte[] hinhAnh) {
+    public CauHoi(int id, int iDBoDe, String noiDung, String dapAnA, String dapAnB, String dapAnC, String dapAnD, String cauTraLoi, int hinhAnh) {
         this.id = id;
         this.iDBoDe = iDBoDe;
         this.noiDung = noiDung;
@@ -161,11 +162,37 @@ public class CauHoi implements Serializable {
         this.cauTraLoi = cauTraLoi;
     }
 
+    public CauHoi(int id, int iDBoDe, String noiDung, String dapAnA, String dapAnB, String dapAnC, String dapAnD, String cauTraLoi, int maLoaiCauHoi, int hinhAnh) {
+        this.id = id;
+        this.iDBoDe = iDBoDe;
+        this.noiDung = noiDung;
+        this.dapAnA = dapAnA;
+        this.dapAnB = dapAnB;
+        this.dapAnC = dapAnC;
+        this.dapAnD = dapAnD;
+        this.cauTraLoi = cauTraLoi;
+        this.maLoaiCauHoi = maLoaiCauHoi;
+        this.hinhAnh = hinhAnh;
+    }
+
     public ArrayList<String> ConvertCauTraLoiToList() {
         if (this.cauTraLoi != null) {
             ArrayList<String> listAns = new ArrayList<String>(Arrays.asList(this.cauTraLoi.split(",")));
             return listAns;
         }
         return new ArrayList<>();
+    }
+
+    public String getTraLoiNguoiDung() {
+        String ans = "";
+        ArrayList<String> listCauTL = getListTraLoi();
+        for (int i = 0; i < listCauTL.size(); i++) {
+            if (i == listCauTL.size() - 1) {
+                ans += listCauTL.get(i);
+            } else {
+                ans += listCauTL.get(i) + ",";
+            }
+        }
+        return  ans;
     }
 }

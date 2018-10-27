@@ -1,5 +1,6 @@
 package com.example.vananh.doan.Slide;
 
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -54,6 +55,7 @@ public class ScreenSlidePageFragment extends Fragment {
         btnAnswerB = rootView.findViewById(R.id.btnAnswerB);
         btnAnswerC = rootView.findViewById(R.id.btnAnswerC);
         btnAnswerD = rootView.findViewById(R.id.btnAnswerD);
+        imageCauHoi = rootView.findViewById(R.id.imageView);
         chkA = rootView.findViewById(R.id.chkA);
         chkB = rootView.findViewById(R.id.chkB);
         chkC = rootView.findViewById(R.id.chkC);
@@ -83,55 +85,42 @@ public class ScreenSlidePageFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        textNumber.setText("Câu " + String.valueOf(currentPage + 1));
-        CauHoi cauHoi = listCauHoi.get(currentPage);
-        textCauHoi.setText(cauHoi.getNoiDung());
-        byte[] hinhAnh = cauHoi.getHinhAnh();
-        if (hinhAnh != null) {
-            Bitmap bmp = BitmapFactory.decodeByteArray(hinhAnh, 0, hinhAnh.length);
-            imageCauHoi.setImageBitmap(Bitmap.createScaledBitmap(bmp, imageCauHoi.getWidth(), imageCauHoi.getHeight(), false));
-        }
-        setVisibleCheckBox(cauHoi.getDapAnA(), chkA, btnAnswerA, "A");
-        setVisibleCheckBox(cauHoi.getDapAnB(), chkB, btnAnswerB, "B");
-        setVisibleCheckBox(cauHoi.getDapAnC(), chkC, btnAnswerC, "C");
-        setVisibleCheckBox(cauHoi.getDapAnD(), chkD, btnAnswerD, "D");
+        if (listCauHoi != null && listCauHoi.size() > 0) {
+            textNumber.setText("Câu " + String.valueOf(currentPage + 1));
+            CauHoi cauHoi = listCauHoi.get(currentPage);
+            textCauHoi.setText(cauHoi.getNoiDung());
+            int hinhAnh = cauHoi.getHinhAnh();
+            if (hinhAnh != 0) {
+                imageCauHoi.setImageBitmap(decodeSampledBitmapFromResource(getResources(), hinhAnh, 150,150));
+            }
+            setVisibleCheckBox(cauHoi.getDapAnA(), chkA, btnAnswerA, "A");
+            setVisibleCheckBox(cauHoi.getDapAnB(), chkB, btnAnswerB, "B");
+            setVisibleCheckBox(cauHoi.getDapAnC(), chkC, btnAnswerC, "C");
+            setVisibleCheckBox(cauHoi.getDapAnD(), chkD, btnAnswerD, "D");
 
-        if (checkAns != 0) {
-            chkA.setClickable(false);
-            chkB.setClickable(false);
-            chkC.setClickable(false);
-            chkD.setClickable(false);
-            getCheckAns(getItem(currentPage).getCauTraLoi());
+            if (checkAns != 0) {
+                chkA.setClickable(false);
+                chkB.setClickable(false);
+                chkC.setClickable(false);
+                chkD.setClickable(false);
+                getCheckAns(getItem(currentPage).getCauTraLoi());
+            }
         }
+
     }
-
+    public Bitmap readBitmapAndScale(int id){
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true; //Chỉ đọc thông tin ảnh, không đọc dữ liwwuj
+        BitmapFactory.decodeResource(getContext().getResources(),id); //Đọc thông tin ảnh
+        options.inSampleSize = 8; //Scale bitmap xuống 8 lần
+        options.inJustDecodeBounds=false; //Cho phép đọc dữ liệu ảnh ảnh
+        return BitmapFactory.decodeResource(getContext().getResources(),id);
+    }
     private void getCheckAns(String ans) {
         if (ans == null) {
-            ans ="";
+            ans = "";
         }
         List<String> listAns = new ArrayList<String>(Arrays.asList(ans.split(",")));
-//        for (String answer : listAns) {
-//            if (answer.equals("A")) {
-//                btnAnswerA.setVisibility(View.VISIBLE);
-//                btnAnswerA.setBackgroundColor(Color.GREEN);
-//            }
-//            if (answer.equals("B")) {
-//                btnAnswerB.setVisibility(View.VISIBLE);
-//                btnAnswerB.setBackgroundColor(Color.GREEN);
-//            }
-//            if (answer.equals("C")) {
-//                btnAnswerC.setVisibility(View.VISIBLE);
-//                btnAnswerC.setBackgroundColor(Color.GREEN);
-//            }
-//            if (answer.equals("D")) {
-//                btnAnswerD.setVisibility(View.VISIBLE);
-//                btnAnswerD.setBackgroundColor(Color.GREEN);
-//            }
-//        }
-//        btnAnswerA.setVisibility(View.VISIBLE);
-//        btnAnswerB.setVisibility(View.VISIBLE);
-//        btnAnswerC.setVisibility(View.VISIBLE);
-//        btnAnswerD.setVisibility(View.VISIBLE);
         if (listAns.contains("A")) {
 
             btnAnswerA.setBackgroundColor(Color.GREEN);
@@ -163,7 +152,7 @@ public class ScreenSlidePageFragment extends Fragment {
     }
 
     private void setVisibleCheckBox(String dapAn, CheckBox chk, Button btn, final String traLoi) {
-        if (dapAn != null && !dapAn.isEmpty()) {
+        if (dapAn != null && !dapAn.isEmpty() && !dapAn.equalsIgnoreCase("null")) {
             chk.setVisibility(View.VISIBLE);
             chk.setText(dapAn);
             if (checkAns != 0) {
@@ -188,5 +177,42 @@ public class ScreenSlidePageFragment extends Fragment {
                 Collections.sort(list);
             }
         });
+    }
+    public static int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
+    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+                                                         int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(res, resId, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(res, resId, options);
     }
 }
