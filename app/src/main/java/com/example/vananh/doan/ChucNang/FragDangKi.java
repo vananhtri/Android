@@ -2,11 +2,14 @@ package com.example.vananh.doan.ChucNang;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +20,22 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.vananh.doan.Constant.Constant;
 import com.example.vananh.doan.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -83,11 +100,72 @@ public class FragDangKi extends android.support.v4.app.Fragment {
     }
 
     private void checkDangKi() {
+        String taikhoan = tenTK.getText().toString();
+        String pass = MatKhau.getText().toString();
+        String hoten = edHoTen.getText().toString();
+        String email = edEmail.getText().toString();
+        String ngaysinh = NgaySinh.getText().toString();
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        String url = Constant.BASE_URL + "api/User/Register";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("TaiKhoan", taikhoan);
+            jsonObject.put("MatKhau", pass);
+            jsonObject.put("HoTen", hoten);
+            jsonObject.put("Email", email);
+            jsonObject.put("NgaySinh", ngaysinh);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+        final JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        onRegisSuccess();
+                    }
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                onDangKiFailed();
+            }
+        }) { //ep kieu
+            @Override
+            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                try {
+                    String jsonString = new String(response.data,
+                            HttpHeaderParser.parseCharset(response.headers, PROTOCOL_CHARSET));
+
+                    JSONObject result = null;
+
+                    if (jsonString != null && jsonString.length() > 0)
+                        result = new JSONObject(jsonString);
+
+                    return Response.success(result,
+                            HttpHeaderParser.parseCacheHeaders(response));
+                } catch (UnsupportedEncodingException e) {
+                    return Response.error(new ParseError(e));
+                } catch (JSONException je) {
+                    return Response.error(new ParseError(je));
+                }
+            }
+        };
+        queue.add(stringRequest);
+    }
+
+    private void onRegisSuccess() {
+        Toast.makeText(getContext(), "Đăng kí thành công", Toast.LENGTH_LONG).show();
+        FlagDangNhap fragment = new FlagDangNhap();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_main, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     private void onDangKiFailed() {
-        Toast.makeText(getContext(), "Sign up failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "Đăng kí thất bại", Toast.LENGTH_LONG).show();
 
     }
 
@@ -174,7 +252,7 @@ public class FragDangKi extends android.support.v4.app.Fragment {
         MatKhau = getActivity().findViewById(R.id.EditMatKhau);
         ReMatKhau = getActivity().findViewById(R.id.EditXacNhanMK);
         btnDate = getActivity().findViewById(R.id.btndate);
-        btnDangKi = getActivity().findViewById(R.id.ButtonDangki);
+        btnDangKi = getActivity().findViewById(R.id.ButtonDK);
         rdNam = getActivity().findViewById(R.id.RadioNam);
         rdNu = getActivity().findViewById(R.id.RadioNu);
     }

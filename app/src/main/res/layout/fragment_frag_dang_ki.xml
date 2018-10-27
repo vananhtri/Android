@@ -164,6 +164,7 @@ tools:context=".ChucNang.FragDangKi">
         android:layout_margin="20dp"
         android:textColor="#090a0a"
         android:textSize="20dp"
+        android:id="@+id/ButtonDK"
         />
 </LinearLayout>
 </FrameLayout>

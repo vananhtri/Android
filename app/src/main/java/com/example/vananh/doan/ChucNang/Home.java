@@ -71,7 +71,13 @@ public class Home extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().setTitle("Trang chủ");
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle("Trang chủ");
+    }
 }
