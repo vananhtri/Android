@@ -3,28 +3,25 @@ package com.example.vananh.doan;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.vananh.doan.ChucNang.Home;
-
 public class KetQuaActivity extends AppCompatActivity {
 
-    Button btnThoat, btnLuu;
+    Button btnThoat, btnTroVe;
     TextView textDung, textSai, textChuaLam, textKetQua;
     int dapAnDung, dapAnSai, chuaChon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test_done);
+        setContentView(R.layout.activity_ket_qua);
 
         //
         btnThoat = findViewById(R.id.btnThoatKQThi);
-        btnLuu = findViewById(R.id.btnLuuDiemKQThi);
+        btnTroVe = findViewById(R.id.btnLuuDiemKQThi);
         textDung = findViewById(R.id.textSoCauDung);
         textSai = findViewById(R.id.textSoCauSai);
         textChuaLam = findViewById(R.id.textSoCauChuaLam);
@@ -76,6 +73,13 @@ public class KetQuaActivity extends AppCompatActivity {
                 });
 
                 builder.show();
+            }
+        });
+
+        btnTroVe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

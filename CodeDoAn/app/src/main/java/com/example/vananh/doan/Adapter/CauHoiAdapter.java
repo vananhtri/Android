@@ -34,11 +34,6 @@ public class CauHoiAdapter extends ArrayAdapter<CauHoi> {
             tvLoaiCauHoi.setText(ch.getTenLoaiCauHoi());
             tvNoiDungCH.setText(ch.getNoiDung());
         }
-
-//        BoDe boDe = getItem(position);
-//        if (boDe != null) {
-//            textView.setText(boDe.getTenBoDe());
-//        }
         return convertView;
     }
 }

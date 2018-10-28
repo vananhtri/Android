@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import com.example.vananh.doan.ChucNang.FlagDangNhap;
 import com.example.vananh.doan.ChucNang.FragCauHoi;
+import com.example.vananh.doan.ChucNang.FragDiemThi;
 import com.example.vananh.doan.ChucNang.Home;
 import com.example.vananh.doan.ChucNang.HuongDan;
 import com.example.vananh.doan.ChucNang.LamBaiThi;
@@ -108,6 +109,9 @@ public class menuActivity extends AppCompatActivity
             manager.beginTransaction().replace(R.id.content_main, flag, flag.getTag()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_Diem) {
+            FragDiemThi frag = new FragDiemThi();
+            FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.content_main, frag, frag.getTag()).addToBackStack(null).commit();
 
         } else if (id == R.id.nav_HuongDan) {
             HuongDan flagHuongDan = new HuongDan();
@@ -123,11 +127,11 @@ public class menuActivity extends AppCompatActivity
         } else if (id == R.id.nav_view) {
 
         }
-        else  if (id==R.id.nav_CauHoi){
-            FragCauHoi fragCauHoi = new FragCauHoi();
-            FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.content_main, fragCauHoi, fragCauHoi.getTag()).commit();
-        }
+//        else  if (id==R.id.nav_CauHoi){
+//            FragCauHoi fragCauHoi = new FragCauHoi();
+//            FragmentManager manager = getSupportFragmentManager();
+//            manager.beginTransaction().replace(R.id.content_main, fragCauHoi, fragCauHoi.getTag()).commit();
+//        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

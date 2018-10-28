@@ -5,9 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_gravity="center"
     tools:context=".KetQuaActivity">
 
     <TextView
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
@@ -21,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -125,26 +127,27 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="50dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <Button
             android:id="@+id/btnThoatKQThi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:text="Thoát"
             android:background="#c59ede"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:text="Trang chủ" />
         <Button
             android:id="@+id/btnLuuDiemKQThi"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="#c59ede"
-            android:text="Lưu điểm"
+            android:text="Trở về"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

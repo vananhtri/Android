@@ -66,7 +66,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:text="MẸO THI THỰC HÀNH"
+                android:text="MẸO THI LÝ THUYẾT"
                 android:gravity="center"
                 android:textColor="#ffffff"
                 android:fontFamily="Times New Roman"
